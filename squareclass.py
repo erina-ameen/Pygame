@@ -23,11 +23,11 @@ class square_shape():
         self.screen=screen
 
     def draw(self):
-        pygame.draw.rect(self.screen, self.colour, self.pos, (self.size, self.size), self.thickness)
+        pygame.draw.rect(self.screen, self.colour, (*self.pos, self.size, self.size), self.thickness)
 
 square_size=(50, 50)
-obj=square_shape(green2, (90, 70), 90, 10)
-obj2=square_shape(blue, (110, 90), 90, 15)
+obj=square_shape(green2, (130, 110), 150, 10)
+obj2=square_shape(blue, (130, 110), 120, 15)
 obj3=square_shape(blue2, (130, 110), 90, 20)
 
 obj.draw()
