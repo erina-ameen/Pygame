@@ -25,6 +25,10 @@ class square_shape():
     def draw(self):
         pygame.draw.rect(self.screen, self.colour, (*self.pos, self.size, self.size), self.thickness)
 
+    def growing(self, grow_size):
+        self.size+=grow_size
+        pygame.draw.rect(self.screen,self.colour,(*self.pos, self.size, self.size),self.thickness)
+
 square_size=(50, 50)
 obj=square_shape(green2, (130, 110), 150, 10)
 obj2=square_shape(blue, (130, 110), 120, 15)
@@ -45,6 +49,15 @@ while play:
             obj.draw()
             obj2.draw()
             obj3.draw()
+            pygame.display.update()
+        elif event.type==pygame.MOUSEBUTTONUP:
+            obj.growing(13)
+            obj2.growing(9)
+            obj3.growing(2)
+        elif event.type==pygame.MOUSEMOTION:
+            mouse_pos=pygame.mouse.get_pos()
+            obj4=square_shape(green2,mouse_pos,7,7)
+            obj4.draw()
             pygame.display.update()
 
 pygame.quit()
