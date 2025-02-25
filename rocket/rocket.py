@@ -1,9 +1,35 @@
 import pygame
+from pygame.locals import*
+from time import*
 
 pygame.init()
 screen=pygame.display.set_mode((1000,625))
 x=500
-y=300
+y=0
 
-bg=pygame.image.load("pastel galaxy.jpg")
-sauce=pygame.image.load("flying saucer.png")
+keys=[False,False,False,False]
+
+bg=pygame.image.load("pastelgalaxy.jpg")
+sauce=pygame.image.load("flyingsaucer.png")
+
+while y<625:
+    screen.blit(bg,(0,0))
+    screen.blit(sauce,(x,y))
+    for event in pygame.event.get():
+        if event.type==pygame.QUIT:
+            pygame.quit()
+        if event.type==pygame.KEYDOWN:
+            if event.key==K_UP:
+                keys[0]=True
+            if event.key==K_DOWN:
+                keys[2]=True
+        if event.type==pygame.KEYUP:
+            if event.key==K_UP:
+                keys[0]=False
+    if keys[0]:
+        if y>0:
+            y-=15
+    y+=10
+    sleep(0.05)
+    pygame.display.update()
+            
