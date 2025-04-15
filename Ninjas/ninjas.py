@@ -35,6 +35,9 @@ def ninja(pygame.sprite.Sprite):
     def __init__(self,image,x,y):
         super().__init__()
         self.image=pygame.image.load(image)
+        self.rect=self.image.get_rect()
+        self.rect.x=x
+        self.rect.y=y
 def drawing():
     screen.blit(bg,(0,0))
     pygame.draw.rect(screen,black,border)
@@ -42,12 +45,21 @@ def drawing():
     heathtxt2=font1.render("Health 2: "+str(nhealth2),1,white)
     screen.blit(heathtxt1, (0,0))
     screen.blit(heathtxt2, (800,0))
+
+#Ninja class object
+leftninja=ninja(n1,10,350)
+rightninja=ninja(n2,990,350)
+ninjagroup=pygame.sprite.Group()
+ninjagroup.add(leftninja)
+ninjagroup.add(rightninja)
+
 run=True
 while run:
     for event in pygame.event.get():
         if event.type==QUIT:
             run=False
-        drawing()    
+    drawing()    
+    ninjagroup.draw(screen)
     pygame.display.update()
 
 pygame.quit()
