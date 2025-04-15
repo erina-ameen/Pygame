@@ -31,13 +31,24 @@ nhealth1=10
 nhealth2=10
 
 #Class for ninja
-def ninja(pygame.sprite.Sprite):
+class ninja(pygame.sprite.Sprite):
     def __init__(self,image,x,y):
         super().__init__()
-        self.image=pygame.image.load(image)
+        self.image=image
         self.rect=self.image.get_rect()
         self.rect.x=x
         self.rect.y=y
+    def UP(self,speed):
+        self.rect.move_ip(0,speed)
+        if self.rect.top<=0 or self.rect.bottom>=759:
+            self.rect.move_ip(0,-speed)
+    
+    def LEFT_RIGHT(self,speed,player):
+        self.rect.move_ip(speed,0)
+        if player==1:
+            if self.rect.left<=0 or self.rect.right>=border.left:
+                self.rect.move_ip(-speed,0)
+
 def drawing():
     screen.blit(bg,(0,0))
     pygame.draw.rect(screen,black,border)
@@ -48,7 +59,7 @@ def drawing():
 
 #Ninja class object
 leftninja=ninja(n1,10,350)
-rightninja=ninja(n2,990,350)
+rightninja=ninja(n2,840,350)
 ninjagroup=pygame.sprite.Group()
 ninjagroup.add(leftninja)
 ninjagroup.add(rightninja)
