@@ -19,6 +19,8 @@ framespersecond=60
 velocity=7
 bulletspeed=9
 maxbullet=5
+bullets_r=[]
+bullets_l=[]
 
 #Images
 bg=pygame.image.load("ninjahouse.jpg")
@@ -51,10 +53,22 @@ class ninja(pygame.sprite.Sprite):
                 self.rect.move_ip(-speed,0)
 
         if player==2:
-            if self.rect.right>=1000 or self.rect.left<=border.right:
+            if self.rect.right>1000 or self.rect.left<border.right:
                 self.rect.move_ip(-speed,0)
 
-def drawing():
+def bullet_create():
+    for bullet in bullets_l:
+        pygame.draw.rect(screen,"purple",bullet)
+        bullet.x+=bulletspeed
+
+    for bullet in bullets_r:
+        pygame.draw.rect(screen,"blue",bullet)
+        bullet.x-=bulletspeed
+
+left_bullet_hit=pygame.USEREVENT+1
+right_bullet_hit=pygame.USEREVENT+2
+
+def drawing(): 
     screen.blit(bg,(0,0))
     pygame.draw.rect(screen,black,border)
     heathtxt1=font1.render("Health 1: "+str(nhealth1),1,white)
@@ -74,6 +88,11 @@ while run:
     for event in pygame.event.get():
         if event.type==QUIT:
             run=False
+        if event.type==KEYDOWN:
+            if event.key==K_LCTRL:
+                bullet=pygame.Rect(leftninja.rect.x+leftninja.rect.width,leftninja.rect.y+leftninja.rect.height//2,10,5)
+                bullets_l.append(bullet)
+
     press_key=pygame.key.get_pressed()
 
     #right ninja movement
@@ -96,8 +115,9 @@ while run:
     if press_key[K_s]:
         leftninja.UP_DOWN(velocity)
 
-    drawing()    
+    drawing()
     ninjagroup.draw(screen)
+    bullet_create()
     pygame.display.update()
 
 pygame.quit()
