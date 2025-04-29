@@ -65,8 +65,29 @@ def bullet_create():
         pygame.draw.rect(screen,"blue",bullet)
         bullet.x-=bulletspeed
 
+def collide():
+    global nhealth1, nhealth2
+    for bullet in bullets_l:
+        if rightninja.rect.colliderect(bullet):
+            nhealth2-=1
+            bullets_l.remove(bullet)
+        elif bullet.x>WIDTH:
+            bullets_l.remove(bullet)
+    for bullet in bullets_r:
+        if leftninja.rect.colliderect(bullet):
+            nhealth1-=1
+            bullets_r.remove(bullet)
+        elif bullet.x<0:
+            bullets_r.remove(bullet)
+
 left_bullet_hit=pygame.USEREVENT+1
 right_bullet_hit=pygame.USEREVENT+2
+
+def text_draw(text):
+    winn=font1.render(text,1,white)
+    screen.blit(winn,(500,400))
+    pygame.display.update()
+    pygame.time.delay(5000)
 
 def drawing(): 
     screen.blit(bg,(0,0))
@@ -91,8 +112,18 @@ while run:
         if event.type==KEYDOWN:
             if event.key==K_LCTRL:
                 bullet=pygame.Rect(leftninja.rect.x+leftninja.rect.width,leftninja.rect.y+leftninja.rect.height//2,10,5)
-                bullets_l.append(bullet)
+                bullets_l.append(bullet)            
+                
+            if event.key==K_RCTRL:
+                bullet=pygame.Rect(rightninja.rect.x,rightninja.rect.y+rightninja.rect.height//2,10,5)
+                bullets_r.append(bullet)
 
+        if event.type==left_bullet_hit:
+            nhealth1-=1
+
+        if event.type==right_bullet_hit:
+            nhealth2-=1
+    
     press_key=pygame.key.get_pressed()
 
     #right ninja movement
@@ -118,6 +149,7 @@ while run:
     drawing()
     ninjagroup.draw(screen)
     bullet_create()
+    collide()
     pygame.display.update()
 
 pygame.quit()
